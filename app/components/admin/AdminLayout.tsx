@@ -3,43 +3,33 @@
 import React, { useState } from "react";
 import {
   LayoutDashboard,
-  Calendar,
-  TrendingUp,
+  CheckCircle,
+  Users,
   Settings,
   Bell,
   Search,
   Menu,
   X,
   User,
-  Plus,
-  BarChart3,
   LogOut,
-  Router,
+  Shield,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 
-interface OrganizerLayoutProps {
+interface AdminLayoutProps {
   children: React.ReactNode;
 }
-  const handleLogout = () => {
-    if (confirm("Are you sure you want to logout?")) {
-      // Handle logout logic here
-      window.location.href = "/login";
-      alert("Logged out successfully");
-    }
-  };
-export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
+
+export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/organizer" },
-    { icon: Calendar, label: "My Events", href: "/organizer/events" },
-    { icon: TrendingUp, label: "Sales", href: "/organizer/sales" },
-    { icon: BarChart3, label: "Analytics", href: "/organizer/analytics" },
-    { icon: Settings, label: "Settings", href: "/organizer/settings" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/admin" },
+    { icon: CheckCircle, label: "Approvals", href: "/admin/approvals" },
+    { icon: Users, label: "Organizers", href: "/admin/organizers" },
+    { icon: Settings, label: "Settings", href: "/admin/settings" },
   ];
 
   const closeSidebar = () => setIsSidebarOpen(false);
@@ -62,16 +52,16 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
           </button>
 
           <Link
-            href="/organizer"
+            href="/admin"
             className="flex items-center gap-3"
             onClick={closeSidebar}
           >
-            <div className="w-10 h-10 bg-linear-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 bg-linear-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+              <Shield className="w-6 h-6 text-white" />
             </div>
             <div className="hidden sm:block">
-              <span className="text-xl font-bold">NFTix Organizer</span>
-              <p className="text-xs text-slate-400">Event Management</p>
+              <span className="text-xl font-bold">NFTix Admin</span>
+              <p className="text-xs text-slate-400">Event Management Admin</p>
             </div>
           </Link>
         </div>
@@ -80,8 +70,8 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
           <input
             type="text"
-            placeholder="Search events, sales..."
-            className="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-2 pl-10 pr-4 focus:ring-2 focus:ring-purple-500 outline-none text-white placeholder-slate-400"
+            placeholder="Search events, organizers..."
+            className="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-2 pl-10 pr-4 focus:ring-2 focus:ring-red-500 outline-none text-white placeholder-slate-400"
           />
         </div>
 
@@ -92,12 +82,12 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
           </button>
 
           <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-2 rounded-xl border border-slate-700">
-            <div className="w-8 h-8 bg-linear-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
               <User className="w-5 h-5 text-white" />
             </div>
             <div className="hidden lg:block">
-              <p className="text-sm font-medium text-white">John Organizer</p>
-              <p className="text-xs text-slate-400">Organizer</p>
+              <p className="text-sm font-medium text-white">Admin User</p>
+              <p className="text-xs text-slate-400">Administrator</p>
             </div>
           </div>
         </div>
@@ -110,16 +100,6 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
         }`}
       >
         <div className="p-4 space-y-2">
-          {/* Create Event Button */}
-          <Link
-            href="/organizer/events/create"
-            onClick={closeSidebar}
-            className="w-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-semibold py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all flex items-center justify-center gap-2 mb-4"
-          >
-            <Plus className="w-5 h-5" />
-            Create Event
-          </Link>
-
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -127,7 +107,7 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
               onClick={closeSidebar}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 isActive(item.href)
-                  ? "bg-linear-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                  ? "bg-linear-to-r from-red-500 to-orange-500 text-white shadow-lg"
                   : "text-slate-400 hover:bg-slate-800 hover:text-white"
               }`}
             >
@@ -137,7 +117,7 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
           ))}
 
           <div className="pt-4 mt-4 border-t border-slate-700">
-            <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all w-full">
+            <button className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all w-full">
               <LogOut className="w-5 h-5" />
               <span className="font-medium">Logout</span>
             </button>
@@ -146,10 +126,12 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
 
         {/* Help Card */}
         <div className="absolute bottom-4 left-4 right-4">
-          <div className="bg-linear-to-br from-purple-600/20 to-blue-600/20 rounded-xl p-4 border border-purple-500/30">
-            <p className="text-sm text-white font-semibold mb-2">Need Help?</p>
+          <div className="bg-linear-to-br from-red-600/20 to-orange-600/20 rounded-xl p-4 border border-red-500/30">
+            <p className="text-sm text-white font-semibold mb-2">
+              Admin Support
+            </p>
             <p className="text-xs text-slate-300 mb-3">
-              Contact support for assistance
+              Need help with admin tasks?
             </p>
             <button className="w-full bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all">
               Contact Support

@@ -48,6 +48,7 @@ export default function Settings() {
   const handleLogout = () => {
     if (confirm("Are you sure you want to logout?")) {
       // Handle logout logic here
+      window.location.href = "/login";
       alert("Logged out successfully");
     }
   };
