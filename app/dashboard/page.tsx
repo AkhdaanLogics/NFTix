@@ -17,37 +17,43 @@ import {
 export default function CustomerDashboard() {
   const [activeTab, setActiveTab] = useState("upcoming");
 
+  // Stats data
   const stats = [
     {
       icon: Ticket,
       label: "Tickets Owned",
       value: "8",
       change: "+2 this month",
-      color: "purple",
+      bgColor: "bg-purple-500/20",
+      textColor: "text-purple-400",
     },
     {
       icon: Wallet,
       label: "Total Spent",
       value: "1.2 ETH",
       change: "Avg. 0.15 ETH/ticket",
-      color: "green",
+      bgColor: "bg-green-500/20",
+      textColor: "text-green-400",
     },
     {
       icon: Calendar,
       label: "Events Attended",
       value: "5",
       change: "3 upcoming",
-      color: "blue",
+      bgColor: "bg-blue-500/20",
+      textColor: "text-blue-400",
     },
     {
       icon: Star,
       label: "Favorite Genre",
       value: "Music",
       change: "5 events",
-      color: "pink",
+      bgColor: "bg-pink-500/20",
+      textColor: "text-pink-400",
     },
   ];
 
+  // Upcoming events data
   const upcomingEvents = [
     {
       id: 1,
@@ -59,7 +65,6 @@ export default function CustomerDashboard() {
       status: "confirmed",
       image:
         "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400",
-      qrCode: "QR_CODE_PLACEHOLDER",
     },
     {
       id: 2,
@@ -71,7 +76,6 @@ export default function CustomerDashboard() {
       status: "confirmed",
       image:
         "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400",
-      qrCode: "QR_CODE_PLACEHOLDER",
     },
     {
       id: 3,
@@ -83,10 +87,10 @@ export default function CustomerDashboard() {
       status: "confirmed",
       image:
         "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400",
-      qrCode: "QR_CODE_PLACEHOLDER",
     },
   ];
 
+  // Past events data
   const pastEvents = [
     {
       id: 4,
@@ -98,7 +102,7 @@ export default function CustomerDashboard() {
       status: "attended",
       image:
         "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400",
-      review: 5,
+      rating: 5,
     },
     {
       id: 5,
@@ -110,51 +114,63 @@ export default function CustomerDashboard() {
       status: "attended",
       image:
         "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400",
-      review: 4,
+      rating: 4,
     },
   ];
 
+  // Status badge component
   const getStatusBadge = (status: string) => {
-    const styles = {
-      confirmed: "bg-green-500/20 text-green-400 border-green-500/30",
-      attended: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-      cancelled: "bg-red-500/20 text-red-400 border-red-500/30",
+    const config = {
+      confirmed: {
+        style: "bg-green-500/20 text-green-400 border-green-500/30",
+        icon: CheckCircle,
+        label: "Confirmed",
+      },
+      attended: {
+        style: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+        icon: CheckCircle,
+        label: "Attended",
+      },
+      cancelled: {
+        style: "bg-red-500/20 text-red-400 border-red-500/30",
+        icon: Clock,
+        label: "Cancelled",
+      },
     };
-    const icons = {
-      confirmed: CheckCircle,
-      attended: CheckCircle,
-      cancelled: Clock,
-    };
-    const Icon = icons[status as keyof typeof icons];
+
+    const { style, icon: Icon, label } = config[status as keyof typeof config];
 
     return (
       <span
-        className={`flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full border ${
-          styles[status as keyof typeof styles]
-        }`}
+        className={`flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full border ${style}`}
       >
         <Icon className="w-3 h-3" />
-        {status.charAt(0).toUpperCase() + status.slice(1)}
+        {label}
       </span>
     );
   };
 
+  // Render stars for rating
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${
-          i < rating ? "text-yellow-400 fill-current" : "text-slate-600"
-        }`}
-      />
-    ));
+    return (
+      <div className="flex gap-0.5">
+        {Array.from({ length: 5 }, (_, i) => (
+          <Star
+            key={i}
+            className={`w-4 h-4 ${
+              i < rating ? "text-yellow-400 fill-current" : "text-slate-600"
+            }`}
+          />
+        ))}
+      </div>
+    );
   };
 
   return (
     <>
-      {/* Welcome */}
+      {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-white mb-2">
           Welcome back, Alex! 👋
         </h1>
         <p className="text-slate-400">
@@ -170,27 +186,28 @@ export default function CustomerDashboard() {
             className="bg-slate-900 border border-slate-800 p-6 rounded-2xl hover:border-slate-700 transition-all"
           >
             <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-xl bg-${stat.color}-500/20`}>
-                <stat.icon className={`w-6 h-6 text-${stat.color}-400`} />
+              <div className={`p-3 rounded-xl ${stat.bgColor}`}>
+                <stat.icon className={`w-6 h-6 ${stat.textColor}`} />
               </div>
             </div>
             <p className="text-slate-400 text-sm mb-1">{stat.label}</p>
             <p className="text-2xl font-bold text-white mb-1">{stat.value}</p>
-            <p className={`text-${stat.color}-400 text-xs font-semibold`}>
+            <p className={`${stat.textColor} text-xs font-semibold`}>
               {stat.change}
             </p>
           </div>
         ))}
       </div>
 
-      {/* Tabs */}
+      {/* Events Section with Tabs */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mb-8">
+        {/* Tab Navigation */}
         <div className="flex gap-2 mb-6 bg-slate-800/50 p-1 rounded-xl w-fit">
           <button
             onClick={() => setActiveTab("upcoming")}
             className={`px-6 py-2 rounded-lg font-medium transition-all ${
               activeTab === "upcoming"
-                ? "bg-purple-600 text-white"
+                ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
                 : "text-slate-400 hover:text-white"
             }`}
           >
@@ -200,7 +217,7 @@ export default function CustomerDashboard() {
             onClick={() => setActiveTab("past")}
             className={`px-6 py-2 rounded-lg font-medium transition-all ${
               activeTab === "past"
-                ? "bg-purple-600 text-white"
+                ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
                 : "text-slate-400 hover:text-white"
             }`}
           >
@@ -208,13 +225,16 @@ export default function CustomerDashboard() {
           </button>
         </div>
 
+        {/* Tab Content */}
         {activeTab === "upcoming" ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          /* Upcoming Events Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {upcomingEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-slate-800/50 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500/50 transition-all group"
               >
+                {/* Event Image */}
                 <div className="relative h-40 overflow-hidden">
                   <img
                     src={event.image}
@@ -226,16 +246,28 @@ export default function CustomerDashboard() {
                   </div>
                 </div>
 
+                {/* Event Details */}
                 <div className="p-4">
                   <h3 className="text-white font-bold mb-2 line-clamp-1">
                     {event.title}
                   </h3>
+
                   <div className="space-y-1 text-xs text-slate-400 mb-3">
-                    <p>📅 {event.date}</p>
-                    <p>📍 {event.location}</p>
-                    <p>🎫 {event.ticketId}</p>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-3 h-3" />
+                      <span>{event.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3 h-3" />
+                      <span className="line-clamp-1">{event.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Ticket className="w-3 h-3" />
+                      <span>{event.ticketId}</span>
+                    </div>
                   </div>
 
+                  {/* Price & Status Info */}
                   <div className="flex items-center justify-between text-sm mb-3 pb-3 border-b border-slate-700">
                     <div>
                       <p className="text-slate-400 text-xs">Price Paid</p>
@@ -247,10 +279,11 @@ export default function CustomerDashboard() {
                     </div>
                   </div>
 
+                  {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <button className="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                    <button className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
                       <Eye className="w-4 h-4" />
-                      View Ticket
+                      View
                     </button>
                     <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
                       <Download className="w-4 h-4" />
@@ -262,12 +295,14 @@ export default function CustomerDashboard() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          /* Past Events Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {pastEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-slate-800/50 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500/50 transition-all group"
               >
+                {/* Event Image */}
                 <div className="relative h-40 overflow-hidden">
                   <img
                     src={event.image}
@@ -279,30 +314,44 @@ export default function CustomerDashboard() {
                   </div>
                 </div>
 
+                {/* Event Details */}
                 <div className="p-4">
                   <h3 className="text-white font-bold mb-2 line-clamp-1">
                     {event.title}
                   </h3>
+
                   <div className="space-y-1 text-xs text-slate-400 mb-3">
-                    <p>📅 {event.date}</p>
-                    <p>📍 {event.location}</p>
-                    <p>🎫 {event.ticketId}</p>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-3 h-3" />
+                      <span>{event.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3 h-3" />
+                      <span className="line-clamp-1">{event.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Ticket className="w-3 h-3" />
+                      <span>{event.ticketId}</span>
+                    </div>
                   </div>
 
+                  {/* Price & Rating */}
                   <div className="flex items-center justify-between text-sm mb-3 pb-3 border-b border-slate-700">
                     <div>
-                      <p className="text-slate-400 text-xs">Price Paid</p>
+                      <p className="text-slate-400 text-xs mb-1">Price Paid</p>
                       <p className="text-purple-400 font-bold">{event.price}</p>
                     </div>
-                    <div className="flex items-center mb-2">
-                      {renderStars(event.review)}
+                    <div className="text-right">
+                      <p className="text-slate-400 text-xs mb-1">Your Rating</p>
+                      {renderStars(event.rating)}
                     </div>
                   </div>
 
+                  {/* Action Buttons */}
                   <div className="flex gap-2">
                     <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
                       <Eye className="w-4 h-4" />
-                      View Details
+                      Details
                     </button>
                     <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
                       <Share className="w-4 h-4" />
@@ -321,7 +370,7 @@ export default function CustomerDashboard() {
         <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+          <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
             <Ticket className="w-5 h-5" />
             Browse Events
           </button>

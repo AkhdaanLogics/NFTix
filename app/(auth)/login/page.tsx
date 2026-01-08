@@ -1,20 +1,44 @@
 "use client";
 import React, { useState } from "react";
-import { Wallet, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Wallet, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 
 export default function NFTixLogin() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loginMethod, setLoginMethod] = useState("email"); // 'email' or 'wallet'
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   interface LoginFormData {
     email: string;
     password: string;
     method: string;
   }
+
+  const handleUsernameLogin = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const loginData = {
+      username,
+      method: loginMethod,
+    };
+    console.log("Login attempted with:", loginData);
+    // Handle login logic here based on username
+    if (username.toLowerCase() === "admin") {
+      router.push("/admin");
+    } else if (username.toLowerCase() === "organizer") {
+      router.push("/organizer");
+    } else if (username.toLowerCase() === "customer") {
+      router.push("/dashboard");
+    } else {
+      alert(
+        "Invalid username. Please enter 'admin', 'organizer', or 'customer'."
+      );
+    }
+  };
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -70,6 +94,17 @@ export default function NFTixLogin() {
           {/* Tab selector */}
           <div className="flex gap-2 mb-6 bg-slate-900/50 p-1 rounded-xl">
             <button
+              onClick={() => setLoginMethod("username")}
+              className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
+                loginMethod === "username"
+                  ? "bg-linear-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <User className="w-4 h-4 inline mr-2" />
+              Username
+            </button>
+            <button
               onClick={() => setLoginMethod("email")}
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
                 loginMethod === "email"
@@ -93,7 +128,35 @@ export default function NFTixLogin() {
             </button>
           </div>
 
-          {loginMethod === "email" ? (
+          {loginMethod === "username" ? (
+            <form onSubmit={handleUsernameLogin} className="space-y-4">
+              {/* Username input */}
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Username
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-3 px-10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Enter your username (admin, organizer, or customer)"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Login button */}
+              <button
+                type="submit"
+                className="w-full bg-linear-to-r from-purple-500 to-blue-500 text-white font-semibold py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5"
+              >
+                Sign In
+              </button>
+            </form>
+          ) : loginMethod === "email" ? (
             <form onSubmit={handleLogin} className="space-y-4">
               {/* Email input */}
               <div>
@@ -215,7 +278,7 @@ export default function NFTixLogin() {
           {/* Social login */}
           <div className="relative">
             <button className="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl transition-all duration-300 font-medium">
-                Google
+              Google
             </button>
           </div>
 
