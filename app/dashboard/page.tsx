@@ -118,6 +118,37 @@ export default function CustomerDashboard() {
     },
   ];
 
+  // Available events for purchase
+  const availableEvents = [
+    {
+      id: 7,
+      title: "Winter Jazz Festival",
+      date: "Jan 20, 2027",
+      location: "Blue Note Jazz Club, NYC",
+      price: "0.05 ETH",
+      image:
+        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400",
+    },
+    {
+      id: 8,
+      title: "Tech Summit 2027",
+      date: "Feb 15, 2027",
+      location: "Convention Center, SF",
+      price: "0.08 ETH",
+      image:
+        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400",
+    },
+    {
+      id: 9,
+      title: "Rock Legends Tour",
+      date: "Mar 10, 2027",
+      location: "Madison Square Garden, NY",
+      price: "0.12 ETH",
+      image:
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400",
+    },
+  ];
+
   // Status badge component
   const getStatusBadge = (status: string) => {
     const config = {
@@ -365,24 +396,96 @@ export default function CustomerDashboard() {
         )}
       </div>
 
+      {/* Browse & Buy Tickets Section */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mb-8">
+        <h2 className="text-xl font-bold text-white mb-6">
+          Browse & Buy Tickets
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {availableEvents.map((event) => (
+            <div
+              key={event.id}
+              className="bg-slate-800/50 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500/50 transition-all group"
+            >
+              {/* Event Image */}
+              <div className="relative h-40 overflow-hidden">
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Event Details */}
+              <div className="p-4">
+                <h3 className="text-white font-bold mb-2 line-clamp-1">
+                  {event.title}
+                </h3>
+
+                <div className="space-y-1 text-xs text-slate-400 mb-3">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-3 h-3" />
+                    <span>{event.date}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-3 h-3" />
+                    <span className="line-clamp-1">{event.location}</span>
+                  </div>
+                </div>
+
+                {/* Price Info */}
+                <div className="flex items-center justify-between text-sm mb-3 pb-3 border-b border-slate-700">
+                  <div>
+                    <p className="text-slate-400 text-xs">Price</p>
+                    <p className="text-purple-400 font-bold">{event.price}</p>
+                  </div>
+                </div>
+
+                {/* Buy Button */}
+                <button
+                  onClick={() => alert(`Buying ticket for ${event.title}`)}
+                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                >
+                  <Ticket className="w-4 h-4" />
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Quick Actions */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+          <button
+            onClick={() => alert("Browsing events...")}
+            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
+          >
             <Ticket className="w-5 h-5" />
             Browse Events
           </button>
-          <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+          <button
+            onClick={() => alert("Transferring ticket...")}
+            className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
+          >
             <Wallet className="w-5 h-5" />
             Transfer Ticket
           </button>
-          <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+          <button
+            onClick={() => alert("Rating events...")}
+            className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
+          >
             <Star className="w-5 h-5" />
             Rate Events
           </button>
-          <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+          <button
+            onClick={() => alert("Downloading all tickets...")}
+            className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
+          >
             <Download className="w-5 h-5" />
             Download All
           </button>

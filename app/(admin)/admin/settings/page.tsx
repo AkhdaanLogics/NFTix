@@ -229,7 +229,7 @@ export default function AdminSettings() {
 
                   <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
                     <div className="flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
                       <div>
                         <p className="text-yellow-400 font-medium text-sm">
                           Security Warning
