@@ -155,14 +155,17 @@ export default function DashboardLayout({
               </div>
 
               {/* User Profile */}
-              <button className="flex items-center gap-2 bg-slate-800/50 rounded-xl px-3 py-2 border border-slate-700 hover:border-slate-600 transition-all">
+              <Link
+                href="/dashboard/profile"
+                className="flex items-center gap-2 bg-slate-800/50 rounded-xl px-3 py-2 border border-slate-700 hover:border-slate-600 transition-all"
+              >
                 <div className="w-8 h-8 bg-linear-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
                   <User className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-sm font-medium text-white hidden lg:block">
                   Alex Johnson
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
         </header>

@@ -76,20 +76,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-
-          <div className="flex items-center gap-2 bg-slate-800/50 px-3 py-2 rounded-xl border border-slate-700">
+          <Link
+            href="/admin/settings"
+            className="flex items-center gap-2 bg-slate-800/50 rounded-xl px-3 py-2 border border-slate-700 hover:border-slate-600 transition-all"
+          >
             <div className="w-8 h-8 bg-linear-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
               <User className="w-5 h-5 text-white" />
             </div>
-            <div className="hidden lg:block">
-              <p className="text-sm font-medium text-white">Admin User</p>
-              <p className="text-xs text-slate-400">Administrator</p>
-            </div>
-          </div>
+            <span className="text-sm font-medium text-white hidden lg:block">
+              Alex Johnson
+            </span>
+          </Link>
         </div>
       </nav>
 
