@@ -316,29 +316,11 @@ export default function CustomerDashboard() {
         )}
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="bg-purple-600 hover:bg-purple-500 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-            <Ticket className="w-5 h-5" />
-            Browse Events
-          </button>
-          <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-            <Wallet className="w-5 h-5" />
-            Transfer Ticket
-          </button>
-          <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-            <Star className="w-5 h-5" />
-            Rate Events
-          </button>
-          <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-            <Download className="w-5 h-5" />
-            Download All
-          </button>
-        </div>
-      </div>
+      <footer>
+        <p className="text-center text-slate-500 text-sm py-4">
+          &copy; 2024 NFT Ticketing Platform. All rights reserved.
+        </p>
+      </footer>
     </>
   );
 }

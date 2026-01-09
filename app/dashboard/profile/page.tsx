@@ -250,6 +250,11 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      <footer>
+        <p className="text-center text-slate-500 text-sm py-4">
+          &copy; 2024 NFT Ticketing Platform. All rights reserved.
+        </p>
+      </footer>
     </>
   );
 }

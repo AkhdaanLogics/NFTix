@@ -324,29 +324,11 @@ export default function WalletPage() {
             </div>
           </div>
 
-          {/* Quick Actions */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <button className="bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-                <Send className="w-5 h-5" />
-                Send Crypto
-              </button>
-              <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-                <Download className="w-5 h-5" />
-                Receive
-              </button>
-              <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-                <Upload className="w-5 h-5" />
-                Buy Crypto
-              </button>
-              <button className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
-                <CreditCard className="w-5 h-5" />
-                Add Funds
-              </button>
-            </div>
-          </div>
+          <footer>
+            <p className="text-center text-slate-500 text-sm py-4">
+              &copy; 2024 NFT Ticketing Platform. All rights reserved.
+            </p>
+          </footer>
         </div>
       )}
 

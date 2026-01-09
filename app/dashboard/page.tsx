@@ -12,6 +12,7 @@ import {
   Eye,
   Download,
   Share,
+  ChevronRight,
 } from "lucide-react";
 
 export default function CustomerDashboard() {
@@ -238,7 +239,7 @@ export default function CustomerDashboard() {
             onClick={() => setActiveTab("upcoming")}
             className={`px-6 py-2 rounded-lg font-medium transition-all ${
               activeTab === "upcoming"
-                ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                ? "bg-linear-to-r from-purple-500 to-blue-500 text-white"
                 : "text-slate-400 hover:text-white"
             }`}
           >
@@ -248,7 +249,7 @@ export default function CustomerDashboard() {
             onClick={() => setActiveTab("past")}
             className={`px-6 py-2 rounded-lg font-medium transition-all ${
               activeTab === "past"
-                ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                ? "bg-linear-to-r from-purple-500 to-blue-500 text-white"
                 : "text-slate-400 hover:text-white"
             }`}
           >
@@ -312,7 +313,7 @@ export default function CustomerDashboard() {
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <button className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                    <button className="flex-1 bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
                       <Eye className="w-4 h-4" />
                       View
                     </button>
@@ -398,9 +399,13 @@ export default function CustomerDashboard() {
 
       {/* Browse & Buy Tickets Section */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mb-8">
-        <h2 className="text-xl font-bold text-white mb-6">
-          Browse & Buy Tickets
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-white">Browse & Buy Tickets</h2>
+          <button className="text-purple-400 hover:text-purple-300 text-sm font-semibold flex items-center gap-1 transition-colors">
+            View All
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {availableEvents.map((event) => (
@@ -445,7 +450,7 @@ export default function CustomerDashboard() {
                 {/* Buy Button */}
                 <button
                   onClick={() => alert(`Buying ticket for ${event.title}`)}
-                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                  className="w-full bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
                 >
                   <Ticket className="w-4 h-4" />
                   Buy Now
@@ -455,42 +460,11 @@ export default function CustomerDashboard() {
           ))}
         </div>
       </div>
-
-      {/* Quick Actions */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button
-            onClick={() => alert("Browsing events...")}
-            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
-          >
-            <Ticket className="w-5 h-5" />
-            Browse Events
-          </button>
-          <button
-            onClick={() => alert("Transferring ticket...")}
-            className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
-          >
-            <Wallet className="w-5 h-5" />
-            Transfer Ticket
-          </button>
-          <button
-            onClick={() => alert("Rating events...")}
-            className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
-          >
-            <Star className="w-5 h-5" />
-            Rate Events
-          </button>
-          <button
-            onClick={() => alert("Downloading all tickets...")}
-            className="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
-          >
-            <Download className="w-5 h-5" />
-            Download All
-          </button>
-        </div>
-      </div>
+      <footer>
+        <p className="text-center text-slate-500 text-sm py-4">
+          &copy; 2024 NFT Ticketing Platform. All rights reserved.
+        </p>
+      </footer>
     </>
   );
 }
