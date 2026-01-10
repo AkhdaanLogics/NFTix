@@ -31,6 +31,8 @@ export default function NFTixLogin() {
       router.push("/admin");
     } else if (username.toLowerCase() === "organizer") {
       router.push("/organizer");
+    } else if (username.toLowerCase() === "scanner") {
+      router.push("/scan");
     } else if (username.toLowerCase() === "customer") {
       router.push("/dashboard");
     } else {
@@ -142,7 +144,7 @@ export default function NFTixLogin() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-3 px-10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Enter your username (admin, organizer, or customer)"
+                    placeholder="Enter your username (admin, organizer, scanner, or customer)"
                     required
                   />
                 </div>

@@ -40,7 +40,6 @@ export default function OrganizerLayout({ children }: OrganizerLayoutProps) {
     { icon: Calendar, label: "My Events", href: "/organizer/events" },
     { icon: TrendingUp, label: "Sales", href: "/organizer/sales" },
     { icon: BarChart3, label: "Analytics", href: "/organizer/analytics" },
-    { icon: Scan, label: "Scan Operator", href: "/organizer/scan" },
     { icon: Settings, label: "Settings", href: "/organizer/settings" },
   ];
 
