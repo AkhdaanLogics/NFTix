@@ -1,23 +1,15 @@
-# TODO: Create Scan Operator Page for Organizer
+# TODO: Update Customer Dashboard Cards
 
-## Completed Tasks
+## Tasks
 
-- [x] Analyze the organizer layout and navigation structure
-- [x] Add "Scan Operator" navigation item to OrganizerLayout.tsx
-- [x] Create scan operator page at app/(organizer)/organizer/scan/page.tsx
-- [x] Implement camera access for barcode scanning
-- [x] Add manual ticket ID input functionality
-- [x] Create ticket validation logic with mock data
-- [x] Display scan results with ticket details
-- [x] Add statistics for scanned tickets
+- [ ] Add time (waktu konser mulai) to event cards in upcoming and past events
+- [ ] Implement popup modal for "View" button click
+- [ ] Display barcode and additional details in the popup
+- [ ] Test the changes
 
-## Summary
+## Details
 
-Successfully created a dedicated scan operator page for organizers to validate customer tickets. The page includes:
-
-- Camera access for barcode scanning
-- Manual ticket ID entry
-- Real-time validation with mock ticket data
-- Clear scan results display
-- Statistics tracking
-- Responsive design matching the app's theme
+- Add "time" field to event data objects
+- Add state for modal visibility and selected event
+- Create modal component with barcode placeholder
+- Update View button onClick handler

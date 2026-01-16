@@ -17,6 +17,8 @@ import {
 
 export default function CustomerDashboard() {
   const [activeTab, setActiveTab] = useState("upcoming");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   // Stats data
   const stats = [
@@ -60,6 +62,7 @@ export default function CustomerDashboard() {
       id: 1,
       title: "Summer Music Festival 2026",
       date: "Jul 15, 2026",
+      time: "8:00 PM",
       location: "Madison Square Garden, NY",
       ticketId: "#NFT-2341",
       price: "0.08 ETH",
@@ -71,6 +74,7 @@ export default function CustomerDashboard() {
       id: 2,
       title: "Tech Conference 2026",
       date: "Aug 20, 2026",
+      time: "10:00 AM",
       location: "Convention Center, SF",
       ticketId: "#NFT-2342",
       price: "0.05 ETH",
@@ -82,6 +86,7 @@ export default function CustomerDashboard() {
       id: 3,
       title: "Jazz Night Premium",
       date: "Sep 10, 2026",
+      time: "7:30 PM",
       location: "Blue Note Jazz Club, NYC",
       ticketId: "#NFT-2343",
       price: "0.025 BTC",
@@ -97,6 +102,7 @@ export default function CustomerDashboard() {
       id: 4,
       title: "Electronic Dreams Festival",
       date: "Dec 15, 2025",
+      time: "9:00 PM",
       location: "Las Vegas Convention Center",
       ticketId: "#NFT-2101",
       price: "12.5 SOL",
@@ -109,6 +115,7 @@ export default function CustomerDashboard() {
       id: 5,
       title: "Rock Concert 2025",
       date: "Nov 20, 2025",
+      time: "8:00 PM",
       location: "Staples Center, LA",
       ticketId: "#NFT-1987",
       price: "0.1 ETH",
@@ -290,6 +297,10 @@ export default function CustomerDashboard() {
                       <span>{event.date}</span>
                     </div>
                     <div className="flex items-center gap-2">
+                      <Clock className="w-3 h-3" />
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
                       <MapPin className="w-3 h-3" />
                       <span className="line-clamp-1">{event.location}</span>
                     </div>
@@ -313,7 +324,13 @@ export default function CustomerDashboard() {
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <button className="flex-1 bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                    <button
+                      onClick={() => {
+                        setSelectedEvent(event);
+                        setIsModalOpen(true);
+                      }}
+                      className="flex-1 bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                    >
                       <Eye className="w-4 h-4" />
                       View
                     </button>
@@ -358,6 +375,10 @@ export default function CustomerDashboard() {
                       <span>{event.date}</span>
                     </div>
                     <div className="flex items-center gap-2">
+                      <Clock className="w-3 h-3" />
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
                       <MapPin className="w-3 h-3" />
                       <span className="line-clamp-1">{event.location}</span>
                     </div>
@@ -381,7 +402,13 @@ export default function CustomerDashboard() {
 
                   {/* Action Buttons */}
                   <div className="flex gap-2">
-                    <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                    <button
+                      onClick={() => {
+                        setSelectedEvent(event);
+                        setIsModalOpen(true);
+                      }}
+                      className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                    >
                       <Eye className="w-4 h-4" />
                       Details
                     </button>
@@ -465,6 +492,93 @@ export default function CustomerDashboard() {
           &copy; 2024 NFT Ticketing Platform. All rights reserved.
         </p>
       </footer>
+
+      {/* Modal */}
+      {isModalOpen && selectedEvent && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-white font-bold text-lg">Ticket Details</h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="text-center">
+                {selectedEvent.rating ? (
+                  // Past events: show event image
+                  <img
+                    src={selectedEvent.image}
+                    alt={selectedEvent.title}
+                    className="w-full h-32 object-cover rounded-lg mb-4"
+                  />
+                ) : (
+                  // Upcoming events: show barcode
+                  <div className="p-4 rounded-lg mb-4">
+                    <img
+                      src={`/barcode.png`}
+                      alt="Barcode"
+                      className="w-full h-64 object-contain"
+                    />
+                  </div>
+                )}
+                <h4 className="text-white font-bold text-xl mb-2">
+                  {selectedEvent.title}
+                </h4>
+              </div>
+
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Date:</span>
+                  <span className="text-white">{selectedEvent.date}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Time:</span>
+                  <span className="text-white">{selectedEvent.time}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Location:</span>
+                  <span className="text-white">{selectedEvent.location}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Ticket ID:</span>
+                  <span className="text-white">{selectedEvent.ticketId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Price:</span>
+                  <span className="text-white">{selectedEvent.price}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Status:</span>
+                  <span className="text-white capitalize">
+                    {selectedEvent.status}
+                  </span>
+                </div>
+              </div>
+
+              {/* Barcode Image */}
+              {/* <div className="p-4 rounded-lg text-center">
+                <img
+                  src={`/barcode.png`}
+                  alt="Barcode"
+                  className="w-full h-64 object-contain"
+                />
+              </div> */}
+
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="w-full bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-2 rounded-lg transition-all"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
