@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Calendar,
   DollarSign,
@@ -12,9 +12,33 @@ import {
   Eye,
   Edit,
   MoreVertical,
+  X,
 } from "lucide-react";
 
+interface Event {
+  id: number;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  ticketsSold: number;
+  totalTickets: number;
+  revenue: string;
+  status: string;
+  image: string;
+}
+
 export default function OrganizerDashboard() {
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editForm, setEditForm] = useState({
+    title: "",
+    date: "",
+    location: "",
+    totalTickets: "",
+  });
+
   const stats = [
     {
       icon: Calendar,
@@ -51,6 +75,7 @@ export default function OrganizerDashboard() {
       id: 1,
       title: "Summer Music Festival 2026",
       date: "Jul 15, 2026",
+      time: "8:00 PM",
       location: "Madison Square Garden",
       ticketsSold: 450,
       totalTickets: 500,
@@ -63,6 +88,7 @@ export default function OrganizerDashboard() {
       id: 2,
       title: "Tech Conference 2026",
       date: "Aug 20, 2026",
+      time: "9:00 AM",
       location: "Convention Center",
       ticketsSold: 180,
       totalTickets: 300,
@@ -75,6 +101,7 @@ export default function OrganizerDashboard() {
       id: 3,
       title: "Art Exhibition Night",
       date: "Sep 5, 2026",
+      time: "7:00 PM",
       location: "Downtown Gallery",
       ticketsSold: 0,
       totalTickets: 200,
@@ -115,6 +142,29 @@ export default function OrganizerDashboard() {
       time: "2 hours ago",
     },
   ];
+
+  const handleViewEvent = (event: Event): void => {
+    setSelectedEvent(event);
+    setIsViewModalOpen(true);
+  };
+
+  const handleEditEvent = (event: Event): void => {
+    setSelectedEvent(event);
+    setEditForm({
+      title: event.title,
+      date: event.date,
+      location: event.location,
+      totalTickets: event.totalTickets.toString(),
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    // Here you would typically save the changes to the backend
+    console.log("Saving edited event:", editForm);
+    setIsEditModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   const getStatusBadge = (status: string) => {
     const styles = {
@@ -205,7 +255,9 @@ export default function OrganizerDashboard() {
                   {event.title}
                 </h3>
                 <div className="space-y-1 text-xs text-slate-400 mb-3">
-                  <p>📅 {event.date}</p>
+                  <p>
+                    📅 {event.date} at {event.time}
+                  </p>
                   <p>📍 {event.location}</p>
                 </div>
 
@@ -223,11 +275,17 @@ export default function OrganizerDashboard() {
                 </div>
 
                 <div className="flex gap-2">
-                  <button className="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                  <button
+                    onClick={() => handleViewEvent(event)}
+                    className="flex-1 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                  >
                     <Eye className="w-4 h-4" />
                     View
                   </button>
-                  <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                  <button
+                    onClick={() => handleEditEvent(event)}
+                    className="flex-1 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                  >
                     <Edit className="w-4 h-4" />
                     Edit
                   </button>
@@ -298,6 +356,141 @@ export default function OrganizerDashboard() {
           </table>
         </div>
       </div>
+
+      {/* View Modal */}
+      {isViewModalOpen && selectedEvent && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Event Details</h3>
+              <button
+                onClick={() => setIsViewModalOpen(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <img
+                src={selectedEvent.image}
+                alt={selectedEvent.title}
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <div>
+                <h4 className="text-white font-bold text-lg">
+                  {selectedEvent.title}
+                </h4>
+                <p className="text-slate-400">
+                  📅 {selectedEvent.date} at {selectedEvent.time}
+                </p>
+                <p className="text-slate-400">📍 {selectedEvent.location}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-slate-400 text-sm">Tickets Sold</p>
+                  <p className="text-white font-bold">
+                    {selectedEvent.ticketsSold}/{selectedEvent.totalTickets}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-slate-400 text-sm">Revenue</p>
+                  <p className="text-purple-400 font-bold">
+                    {selectedEvent.revenue}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                {getStatusBadge(selectedEvent.status)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && selectedEvent && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Edit Event</h3>
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  value={editForm.title}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, title: e.target.value })
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">
+                  Date
+                </label>
+                <input
+                  type="text"
+                  value={editForm.date}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, date: e.target.value })
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  value={editForm.location}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, location: e.target.value })
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">
+                  Total Tickets
+                </label>
+                <input
+                  type="number"
+                  value={editForm.totalTickets}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, totalTickets: e.target.value })
+                  }
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white"
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsEditModalOpen(false)}
+                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-2 rounded-lg transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveEdit}
+                  className="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-lg transition-all"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
