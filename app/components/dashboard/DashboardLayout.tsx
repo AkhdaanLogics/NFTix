@@ -106,10 +106,10 @@ export default function DashboardLayout({
 
         {/* Sign Out Button */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-800">
-          <button className="flex items-center gap-3 w-full px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
+          <Link href="/login" className="flex items-center gap-3 w-full px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all">
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Sign Out</span>
-          </button>
+          </Link>
         </div>
       </aside>
 

@@ -23,11 +23,14 @@ import {
   UserX,
   Plus,
   UserPlus,
+  X,
 } from "lucide-react";
 
 export default function Organizers() {
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedOrganizer, setSelectedOrganizer] = useState<any>(null);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
 
   const organizers = [
     {
@@ -197,6 +200,16 @@ export default function Organizers() {
       // Handle activation logic here
       alert(`Organizer #${organizerId} has been activated.`);
     }
+  };
+
+  const handleViewProfile = (organizer: any) => {
+    setSelectedOrganizer(organizer);
+    setShowProfilePopup(true);
+  };
+
+  const closeProfilePopup = () => {
+    setShowProfilePopup(false);
+    setSelectedOrganizer(null);
   };
 
   const getStatusBadge = (status: string) => {
@@ -481,7 +494,10 @@ export default function Organizers() {
                       Last active: 2 hours ago
                     </div>
                     <div className="flex gap-3">
-                      <button className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-all flex items-center gap-2">
+                      <button
+                        onClick={() => handleViewProfile(organizer)}
+                        className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-all flex items-center gap-2"
+                      >
                         <Eye className="w-4 h-4" />
                         View Profile
                       </button>
@@ -525,6 +541,128 @@ export default function Organizers() {
           </div>
         )}
       </div>
+
+      {/* Profile Popup */}
+      {showProfilePopup && selectedOrganizer && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">
+                Organizer Profile
+              </h2>
+              <button
+                onClick={closeProfilePopup}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Profile Header */}
+              <div className="flex gap-6">
+                <img
+                  src={selectedOrganizer.avatar}
+                  alt={selectedOrganizer.name}
+                  className="w-20 h-20 rounded-xl object-cover"
+                />
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    {selectedOrganizer.name}
+                  </h3>
+                  <div className="flex gap-2 mb-4">
+                    {getStatusBadge(selectedOrganizer.status)}
+                    {getVerificationBadge(selectedOrganizer.verificationStatus)}
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <Mail className="w-4 h-4" />
+                      {selectedOrganizer.email}
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <Phone className="w-4 h-4" />
+                      {selectedOrganizer.phone}
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <MapPin className="w-4 h-4" />
+                      {selectedOrganizer.location}
+                    </div>
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <Building className="w-4 h-4" />
+                      Joined {selectedOrganizer.joinedDate}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-slate-800/50 rounded-lg p-4 text-center">
+                  <p className="text-slate-400 text-sm mb-1">Total Events</p>
+                  <p className="text-2xl font-bold text-white">
+                    {selectedOrganizer.totalEvents}
+                  </p>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 text-center">
+                  <p className="text-slate-400 text-sm mb-1">Active Events</p>
+                  <p className="text-2xl font-bold text-white">
+                    {selectedOrganizer.activeEvents}
+                  </p>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 text-center">
+                  <p className="text-slate-400 text-sm mb-1">Total Revenue</p>
+                  <p className="text-2xl font-bold text-purple-400">
+                    {selectedOrganizer.totalRevenue}
+                  </p>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 text-center">
+                  <p className="text-slate-400 text-sm mb-1">Rating</p>
+                  <div className="flex items-center justify-center gap-1">
+                    <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                    <p className="text-2xl font-bold text-white">
+                      {selectedOrganizer.rating}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Events List */}
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4">
+                  Recent Events
+                </h4>
+                <div className="space-y-3">
+                  {selectedOrganizer.events.map((event: any) => (
+                    <div
+                      key={event.id}
+                      className="bg-slate-800/50 rounded-lg p-4 flex justify-between items-center"
+                    >
+                      <div>
+                        <p className="text-white font-medium">{event.title}</p>
+                        <p className="text-slate-400 text-sm">
+                          Revenue: {event.revenue}
+                        </p>
+                      </div>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          event.status === "approved"
+                            ? "bg-green-500/20 text-green-400"
+                            : event.status === "pending"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-red-500/20 text-red-400"
+                        }`}
+                      >
+                        {event.status.charAt(0).toUpperCase() +
+                          event.status.slice(1)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

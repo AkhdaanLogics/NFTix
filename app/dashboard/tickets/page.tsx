@@ -235,7 +235,7 @@ export default function MyTicketsPage() {
                 onClick={() => setActiveFilter(filter.key)}
                 className={`px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-2 ${
                   activeFilter === filter.key
-                    ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                    ? "bg-linear-to-r from-purple-500 to-blue-500 text-white"
                     : "bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700"
                 }`}
               >
@@ -321,7 +321,7 @@ export default function MyTicketsPage() {
                       setSelectedEvent(ticket);
                       setIsModalOpen(true);
                     }}
-                    className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
+                    className="flex-1 bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
                   >
                     <Eye className="w-4 h-4" />
                     View Details

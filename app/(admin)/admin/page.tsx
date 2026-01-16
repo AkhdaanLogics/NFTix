@@ -268,10 +268,6 @@ export default function AdminDashboard() {
                             <X className="w-4 h-4" />
                             Reject
                           </button>
-                          <button className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-all flex items-center gap-1">
-                            <Eye className="w-4 h-4" />
-                            Review
-                          </button>
                         </div>
                       </div>
                     </div>

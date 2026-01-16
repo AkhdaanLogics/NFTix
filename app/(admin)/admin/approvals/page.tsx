@@ -443,14 +443,6 @@ export default function Approvals() {
                       Submitted: {event.submittedDate}
                     </div>
                     <div className="flex gap-3">
-                      <button className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-all flex items-center gap-2">
-                        <Eye className="w-4 h-4" />
-                        Review Details
-                      </button>
-                      <button className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-all flex items-center gap-2">
-                        <MessageSquare className="w-4 h-4" />
-                        Request Info
-                      </button>
                       <button
                         onClick={() => handleReject(event.id)}
                         className="bg-red-600 hover:bg-red-500 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-all flex items-center gap-2"

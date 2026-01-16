@@ -114,10 +114,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           ))}
 
           <div className="pt-4 mt-4 border-t border-slate-700">
-            <button className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all w-full">
+            <Link href="/login" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all w-full">
               <LogOut className="w-5 h-5" />
               <span className="font-medium">Logout</span>
-            </button>
+            </Link>
           </div>
         </div>
 
