@@ -461,8 +461,16 @@ export default function CustomerDashboard() {
                     <span>{event.date}</span>
                   </div>
                   <div className="flex items-center gap-2">
+                    <Clock className="w-3 h-3" />
+                    <span>7:00 PM</span>
+                  </div>
+                  <div className="flex items-center gap-2">
                     <MapPin className="w-3 h-3" />
                     <span className="line-clamp-1">{event.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Ticket className="w-3 h-3" />
+                    <span>Available Now</span>
                   </div>
                 </div>
 

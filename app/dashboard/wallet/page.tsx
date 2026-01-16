@@ -18,11 +18,17 @@ import {
   Plus,
   ArrowUpRight,
   ArrowDownLeft,
+  Barcode,
+  X,
 } from "lucide-react";
 
 export default function WalletPage() {
   const [showBalance, setShowBalance] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
+  const [showTransferPopup, setShowTransferPopup] = useState(false);
+  const [showViewPopup, setShowViewPopup] = useState(false);
+  const [selectedNft, setSelectedNft] = useState<any>(null);
+  const [destinationAddress, setDestinationAddress] = useState("");
 
   // Wallet data
   const walletData = {
@@ -432,11 +438,23 @@ export default function WalletPage() {
                     </div>
 
                     <div className="flex gap-2">
-                      <button className="flex-1 bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => {
+                          setSelectedNft(nft);
+                          setShowViewPopup(true);
+                        }}
+                        className="flex-1 bg-linear-to-r from-purple-500 to-blue-500 hover:shadow-lg hover:shadow-purple-500/50 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                      >
                         <Eye className="w-4 h-4" />
                         View
                       </button>
-                      <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => {
+                          setSelectedNft(nft);
+                          setShowTransferPopup(true);
+                        }}
+                        className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2 rounded-lg transition-all flex items-center justify-center gap-1"
+                      >
                         <Send className="w-4 h-4" />
                         Transfer
                       </button>
@@ -444,6 +462,107 @@ export default function WalletPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Transfer Popup */}
+      {showTransferPopup && selectedNft && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white">Transfer NFT</h3>
+              <button
+                onClick={() => {
+                  setShowTransferPopup(false);
+                  setSelectedNft(null);
+                  setDestinationAddress("");
+                }}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <p className="text-slate-300 text-sm mb-2">
+                  Transferring: {selectedNft.name}
+                </p>
+                <label className="block text-slate-300 text-sm mb-1">
+                  Destination Wallet Address
+                </label>
+                <input
+                  type="text"
+                  value={destinationAddress}
+                  onChange={(e) => setDestinationAddress(e.target.value)}
+                  placeholder="Enter wallet address"
+                  className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    // Handle transfer logic here
+                    console.log(
+                      `Transferring NFT ${selectedNft.id} to ${destinationAddress}`
+                    );
+                    setShowTransferPopup(false);
+                    setSelectedNft(null);
+                    setDestinationAddress("");
+                  }}
+                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition-all"
+                >
+                  Transfer
+                </button>
+                <button
+                  onClick={() => {
+                    setShowTransferPopup(false);
+                    setSelectedNft(null);
+                    setDestinationAddress("");
+                  }}
+                  className="flex-1 bg-slate-600 hover:bg-slate-500 text-white font-semibold py-2 rounded-lg transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Popup */}
+      {showViewPopup && selectedNft && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white">NFT Barcode</h3>
+              <button
+                onClick={() => {
+                  setShowViewPopup(false);
+                  setSelectedNft(null);
+                }}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="flex justify-center">
+              <img
+                src="/barcode.png"
+                alt="NFT Barcode"
+                className="max-w-full h-auto rounded-lg"
+              />
+            </div>
+
+            <div className="mt-4 text-center">
+              <p className="text-slate-300 text-sm">{selectedNft.name}</p>
+              <p className="text-slate-400 text-xs">
+                Token ID: {selectedNft.tokenId}
+              </p>
             </div>
           </div>
         </div>
